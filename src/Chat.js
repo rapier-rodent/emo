@@ -5,7 +5,7 @@ const apiKey = process.env.REACT_APP_GEMINI_API_KEY;
 const genAI = new GoogleGenerativeAI(apiKey);
 const model = genAI.getGenerativeModel({
   model: 'gemini-1.5-pro',
-  systemInstruction: `EmoSculpt Chatbot Prompt:\n\nYou are EmoSculpt, a friendly and engaging chatbot designed to help young adults improve their emotional fitness...`, // Add your detailed prompt here
+  systemInstruction: `EmoSculpt Chatbot Prompt:\n\nYou are EmoSculpt, a friendly and engaging chatbot designed to help young adults improve their emotional fitness...`,
 });
 
 const generationConfig = {
