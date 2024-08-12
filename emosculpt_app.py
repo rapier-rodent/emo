@@ -18,20 +18,24 @@ st.markdown(
 )
 
 # Accessing the API key securely
-api_key = st.secrets["GEMINI_API_KEY"]
+api_key = st.secrets["GOOGLE_API_KEY"]
 
 # EmoSculpt Chatbot Interaction
 def interact_with_gemini(prompt):
-    api_endpoint = "https://your-gemini-api-endpoint.com/chat"
-    headers = {"Authorization": f"Bearer {api_key}"}
-    data = {"prompt": prompt, "max_tokens": 1000}
+    api_endpoint = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro-latest:generateContent?key={api_key}"
+    headers = {"Content-Type": "application/json"}
+    data = {
+        "prompt": prompt,
+        "max_tokens": 1000,
+        # Add other necessary parameters if required by the API
+    }
     
     response = requests.post(api_endpoint, headers=headers, json=data)
     
     if response.status_code == 200:
         return response.json().get("response", "No response from EmoSculpt")
     else:
-        return f"Error: {response.status_code}"
+        return f"Error: {response.status_code}, {response.text}"
 
 # System Instructions (copy the provided prompt here)
 system_instructions = """
