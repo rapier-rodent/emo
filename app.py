@@ -70,4 +70,4 @@ if st.button("Send"):
 if len(st.session_state['chat_history']) == 0:
     welcome_message = "Hello! I'm EmoSculpt, your personal trainer for emotional strength. I'm based on the groundbreaking research of neuroscientist Richard J. Davidson, as detailed in his book *The Emotional Life of Your Brain*."
     st.session_state['chat_history'].append({"role": "bot", "text": welcome_message})
-    st.experimental_rerun()
+    st.rerun()
