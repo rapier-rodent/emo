@@ -21,7 +21,10 @@ model = genai.GenerativeModel(
 
 # Function to handle sending messages
 def send_message(user_input, history):
-    chat_session = model.start_chat(history=history)
+    # Convert history to the required format for the chat session
+    formatted_history = [{"role": chat["role"], "text": chat["text"]} for chat in history]
+    
+    chat_session = model.start_chat(history=formatted_history)
     response = chat_session.send_message(user_input)
     return response.text
 
