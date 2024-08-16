@@ -47,7 +47,6 @@ if st.button("Send"):
         st.session_state['chat_history'].append({"role": "user", "text": user_input.strip()})
         response = send_message(user_input.strip(), st.session_state['chat_history'])
         st.session_state['chat_history'].append({"role": "bot", "text": response})
-        st.experimental_set_query_params(rerun=True)
 
 # Display initial welcome message
 if len(st.session_state['chat_history']) == 0:
@@ -57,4 +56,3 @@ if len(st.session_state['chat_history']) == 0:
         "as detailed in his book *The Emotional Life of Your Brain*."
     )
     st.session_state['chat_history'].append({"role": "bot", "text": welcome_message})
-    st.experimental_set_query_params(rerun=True)
