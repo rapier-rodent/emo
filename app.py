@@ -7,10 +7,11 @@ genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
 
 # Initialize chat session settings
 generation_config = {
-    "temperature": 0.7,
-    "top_p": 0.9,
-    "top_k": 50,
-    "max_output_tokens": 1000,
+    "temperature": 0,
+    "top_p": 0.95,
+    "top_k": 64,
+    "max_output_tokens": 8192,
+    "response_mime_type": "text/plain",
 }
 
 # Create a Generative Model instance
@@ -21,9 +22,14 @@ model = genai.GenerativeModel(
 
 # Function to handle sending messages
 def send_message(user_input, history):
-    # Convert history to the required format for the chat session
-    formatted_history = [{"role": chat["role"], "text": chat["text"]} for chat in history]
-    
+    # Convert history to the required format
+    formatted_history = []
+    for chat in history:
+        formatted_history.append({
+            "role": chat["role"],
+            "parts": [chat["text"]],
+        })
+
     chat_session = model.start_chat(history=formatted_history)
     response = chat_session.send_message(user_input)
     return response.text
@@ -49,7 +55,7 @@ if st.button("Send"):
     if user_input.strip():
         st.session_state['chat_history'].append({"role": "user", "text": user_input.strip()})
         response = send_message(user_input.strip(), st.session_state['chat_history'])
-        st.session_state['chat_history'].append({"role": "bot", "text": response})
+        st.session_state['chat_history'].append({"role": "model", "text": response})
 
 # Display initial welcome message
 if len(st.session_state['chat_history']) == 0:
@@ -58,4 +64,4 @@ if len(st.session_state['chat_history']) == 0:
         "I'm based on the groundbreaking research of neuroscientist Richard J. Davidson, "
         "as detailed in his book *The Emotional Life of Your Brain*."
     )
-    st.session_state['chat_history'].append({"role": "bot", "text": welcome_message})
+    st.session_state['chat_history'].append({"role": "model", "text": welcome_message})
